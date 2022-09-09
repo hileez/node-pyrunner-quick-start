@@ -25,9 +25,49 @@ git clone https://github.com/supercoderlee/pycore-quick-start
 cd electron-quick-start
 # 安装npm包
 npm install
-# 启动应用
+# 启动应用（启动前须配置初始化信息）
 npm start
 ```
+
+
+
+## 初始化
+
+项目启动前要保证python环境配置正确，配置中添加python的环境路径，虚拟环境路径以及项目python脚本目录等路径到PyCore中。
+
+~~~JavaScript
+pycore.init({
+  "python_version":"3.10",
+  "python_home":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6",
+  "program_name":"python",
+  "base_prefix":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6",
+  "base_exec_prefix":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6",
+  "base_executable":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6/python.exe",
+  "prefix":"pyscript/venv",
+  "exec_prefix":"pyscript/venv",
+  "executable":"pyscript/venv/Scripts/python.exe",
+  "pythonpath_env":"pyscript/venv/Lib/site-packages",
+  "module_search_paths":["./", "pyscript"],
+  "encoding":"utf-8"
+});
+~~~
+
+**配置说明**
+
+| 字段                | 说明                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| python_version      | Python使用的版本                                             |
+| python_home         | Python安装目录                                               |
+| program_name        | python主程序名，windows是python，linux和macos系统python为2.7版本，python3为3.X版本 |
+| base_prefix         | Python安装目录                                               |
+| base_exec_prefix    | Python安装目录                                               |
+| base_executable     | python主程序绝对路径                                         |
+| prefix              | 虚拟环境目录，当不使用虚拟环境则设置为base_prefix            |
+| exec_prefix         | 虚拟环境目录，当不使用虚拟环境则设置为base_exec_prefix       |
+| executable          | 虚拟环境目录python主程序绝对路径，当不使用虚拟环境则设置为base_executable |
+| pythonpath_env      | 虚拟环境模块目录                                             |
+| module_search_paths | 搜索模块的路径                                               |
+| encoding            | 解释器编码，一般默认utf-8即可                                |
 
 
 
@@ -41,4 +81,4 @@ npm start
 - `linux` - 必须`libpython3.10.so.1.0`动态库，存在于`/usr/lib/python3.10/config-3.10-x86_64-linux-gnu`目录。
 - `macos` - 必须`libpython3.10.dylib`动态库，存在于`/Library/Frameworks/Python.framework/Versions/3.10/lib`目录。
 
-另外，您也可以使用pyenv来安装和管理多个Python版本，用pyenv安装的python在其下的目录中，使用时可以将动态链接库拷贝到pycore-quick-start项目目录，初始化时指定具体的python3.10路径即可。
+以上安装方式一般情况可以在bash终端或者cmd执行，这时候pycore可以正常加载以上的动态链接库，当加载出现错误时**可以考虑将动态链接库拷贝到项目目录**。另外，您也可以使用pyenv来安装和管理多个Python版本，用pyenv安装的python在其下的目录中，使用时可以将动态链接库拷贝到pycore-quick-start项目目录，初始化时指定具体的python3.10路径即可。
