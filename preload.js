@@ -37,6 +37,7 @@ pycore.init({
 });
 
 // Python调用的JS函数
+// 必须在preload预加载中定义
 // 必须是name = function(){}或者name = () => {}方式定义函数，否则无法在Python调用
 sayHello = function (num1, num2) {
   let total = num1 + num2;
