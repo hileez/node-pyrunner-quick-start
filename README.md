@@ -16,7 +16,7 @@ pycore-quick-start是快速创建electron+pycore的最小应用程序，PyCore�
 
 ## 使用方法
 
-适应git克隆或者直接下载到本地，在项目目录（electron-quick-start）下执行npm安装包和启动应用。
+使用git克隆或者直接下载到本地，在项目目录（electron-quick-start）下执行npm安装包和启动应用。
 
 ```bash
 # 克隆仓库
