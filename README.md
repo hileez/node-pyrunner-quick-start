@@ -1,6 +1,6 @@
 # pycore-quick-start
 
-pycore-quick-start是快速创建electron+pycore的最小应用程序，PyCore是为NodeJs开发的模块，通过PyCore您可以轻松实现JavaScript与Python的交互，充分利用libuv线程池以及异步特性提高开发和执行的效率。PyCore以Nodejs依赖包发布于npmjs平台（https://www.npmjs.com/package/pycore），项目中使用npm包管理器安装即可。
+pycore-quick-start是快速创建electron+pycore的最小应用程序，PyCore是为NodeJs开发的模块，通过PyCore您可以轻松实现JavaScript与Python的交互，充分利用libuv线程池以及异步特性提高开发和执行的效率。PyCore以Nodejs依赖包发布于npmjs平台（[https://www.npmjs.com/package/pycore](https://www.npmjs.com/package/pycore)），项目中使用npm包管理器安装即可。
 
 
 
