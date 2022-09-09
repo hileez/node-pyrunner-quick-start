@@ -1,0 +1,25 @@
+{
+  "name": "pycore-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "PyCore",
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "ZhenLi",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^20.1.2"
+  },
+  "dependencies": {
+    "pycore": "^1.0.5"
+  }
+}
