@@ -92,3 +92,5 @@ pyApp.call('callJS', [2, 6],
         console.log(error);
     }
 );
+
+console.log(pycore.version());

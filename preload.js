@@ -1,5 +1,13 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
+
+// 引用node模块
+const { contextBridge, ipcRenderer } = require('electron')
+const pycore = require('pycore')
+
+
+
+// 显示版本号
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)
@@ -8,16 +16,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   for (const type of ['chrome', 'node', 'electron', 'pycore']) {
     if (type == 'pycore') {
-      replaceText(`${type}-version`, '1.0.5')
+      replaceText(`${type}-version`, pycore.version())
     } else {
       replaceText(`${type}-version`, process.versions[type])
     }
   }
 })
 
-// 引用node模块
-const { contextBridge, ipcRenderer } = require('electron')
-const pycore = require('pycore')
+
 
 // PyCore初始化
 // 根据本机器的python3.10安装路径来配置环境
