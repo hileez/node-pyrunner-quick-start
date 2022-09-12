@@ -31,6 +31,29 @@ npm start
 
 
 
+## PyCore函数与参数
+
+#### 1.在JavaScript中调用的函数
+
+| 模块函数               | 参数                             | 说明                         |
+| ---------------------- | -------------------------------- | ---------------------------- |
+| init()                 | JSON                             | 解释器初始化函数             |
+| import()               | string                           | import用python模块名创建对象 |
+| import('app').callSync | string, array                    | 模块对象同步调用python函数   |
+| import('app').call     | string, array, function,function | 模块对象异步调用python函数   |
+| runScriptSync()        | string                           | 同步执行python语句           |
+| runScript()            | string                           | 异步执行python语句           |
+| release()              |                                  | 释放解释器                   |
+
+#### 2.Python中调用Pycore模块函数
+
+| 模块函数         | 参数                       | 说明       |
+| ---------------- | -------------------------- | ---------- |
+| pycore.callJS    | *target*='函数名', args=() | 调用JS函数 |
+| pycore.runScript | string                     | 执行JS语句 |
+
+
+
 ## 初始化
 
 项目启动前要保证python环境配置正确，配置中添加python的环境路径，虚拟环境路径以及项目python脚本目录等路径到PyCore中。

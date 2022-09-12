@@ -20,6 +20,6 @@
     "electron": "^20.1.2"
   },
   "dependencies": {
-    "pycore": "^1.0.6"
+    "pycore": "^1.0.8"
   }
 }

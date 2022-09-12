@@ -72,6 +72,9 @@ sayHello = function (num1, num2) {
     return ++total;
 }
 
+// pycore版本号
+console.log(pycore.version());
+
 // 执行Python语句
 pycore.runScriptSync("print('main run pyscript')");
 pycore.runScript("print('main run pyscript')");
@@ -92,5 +95,3 @@ pyApp.call('callJS', [2, 6],
         console.log(error);
     }
 );
-
-console.log(pycore.version());

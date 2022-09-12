@@ -5,6 +5,9 @@
 // selectively enable features needed in the rendering
 // process.
 
+// pycore版本
+console.log(pyCoreAPI.version());
+
 // 执行Python语句
 pyCoreAPI.runScriptSync("print('renderer run pyscript')");
 pyCoreAPI.runScript("print('renderer run pyscript')");

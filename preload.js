@@ -64,5 +64,8 @@ contextBridge.exposeInMainWorld('pyCoreAPI', {
   },
   release: () => {
     pycore.release();
-  }
+  },
+  version: () => {
+    return pycore.version();
+  },
 });
