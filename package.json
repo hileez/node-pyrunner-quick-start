@@ -15,11 +15,11 @@
     "demo"
   ],
   "author": "ZhenLi",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^20.1.2"
   },
   "dependencies": {
-    "pycore": "^1.0.8"
+    "pycore": "^1.0.9"
   }
 }
