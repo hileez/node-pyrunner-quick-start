@@ -31,6 +31,12 @@ npm start
 
 
 
+## Python版本
+
+当前仅支持Python3.10版本，后续将增加其他版本。
+
+
+
 ## PyCore函数与参数
 
 #### 1.在JavaScript中调用的函数
@@ -104,4 +110,4 @@ pycore.init({
 - `linux` - 必须`libpython3.10.so.1.0`动态库，存在于`/usr/lib/python3.10/config-3.10-x86_64-linux-gnu`目录。
 - `macos` - 必须`libpython3.10.dylib`动态库，存在于`/Library/Frameworks/Python.framework/Versions/3.10/lib`目录。
 
-以上安装方式一般情况可以在bash终端或者cmd执行，这时候pycore可以正常加载以上的动态链接库，当加载出现错误时**可以考虑将动态链接库拷贝到项目目录**。另外，您也可以使用pyenv来安装和管理多个Python版本，用pyenv安装的python在其下的目录中，使用时可以将动态链接库拷贝到pycore-quick-start项目目录，初始化时指定具体的python3.10路径即可。
+以上安装方式一般情况可以在bash终端或者cmd执行，这时候pycore可以正常加载以上的动态链接库，当加载出现错误时**可以考虑将动态链接库拷贝到项目目录，electron打包后动态链接库搜索路径为EXE主程序当前路径**。另外，您也可以使用pyenv来安装和管理多个Python版本，用pyenv安装的python在其下的目录中，使用时可以将动态链接库拷贝到pycore-quick-start项目目录，初始化时指定具体的python3.10路径即可。
