@@ -1,13 +1,14 @@
-import sys
-import pycore
+import nodepyrunner
 
 def sum(num1, num2):
     return num1 + num2
 
-def callBack(data):
-    pycore.runScript("console.log('Python callBack data:" + str(data) + "');")
-    return data # 该函数return返回值，在JS中为空的JS回调函数接收，将不会有任何操作
+def callback(data):
+    nodepyrunner.runScript("console.log('Python callBack data:" + str(data) + "');")
 
-def callJS(num1, num2):
-    state = pycore.callJS(target='sayHello', args=(num1, num2), callback=(__name__, 'callBack')) # 返回0表示失败，1为成功
+def call_js(num1, num2):
+    nodepyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callback']) # 返回0表示失败，1为成功
     return num1 + num2
+
+def change_dom():
+    nodepyrunner.runScript("document.getElementsByTagName('h1')[0].innerHTML = 'Hello Node-PyRunner';")

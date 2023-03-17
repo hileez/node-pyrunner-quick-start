@@ -1,0 +1,345 @@
+# Node-PyRunner
+
+The node-pyrunner module is used for nodejs to interact with python. Using node-pyrunner you can execute python scripts and call python functions synchronously or asynchronously in nodejs, and allows python to execute js scripts or call js functions when called asynchronously.
+
+Using node-pyrunner can extend the functionality of nodejs with python. Node-PyRunner execute tasks on async thread very easy, because  node-pyrunner is using libuv. You can also create child threads in Python and interact with NodeJS at any time. Tasks can be handled by Python multi-process, but only available in Windows.
+
+Electron integrates with the nodejs runtime, You can use Node-pyrunner in Electron to perform tasks and make it Python's web GUI, python executed javascript  to chenge DOM.
+
+Node-PyRunner is embed Cpython  to NodeJS with C++ Addon, not a web server or child process. So the performance is best.
+
+
+
+## Cross-platform
+
+- windows:i32/x64
+- linux:x64/arm64
+- macos:x64
+
+
+
+## install & require
+
+~~~bash
+# install
+npm install node-pyrunner
+~~~
+
+~~~javascript
+// require packages return object
+const pyrunner = require('node-pyrunner');
+~~~
+
+
+
+##  Node-PyRunner Obeject
+
+#### config
+
+This is node-pyrunner initialization JSON configuration information, used to configure python home directory, script directory, module search directory and other paths, config preset config items according to the system and architecture, default python home directory is ./python in current project and ./pyscript is python script directory, but you can change config used other directory
+
+~~~javascript
+const pyrunner = require('node-pyrunner');
+
+// set python home directory, default:./python/win32/x64/3.10.10
+pyrunner.config['python_home'] = './python/win32/x64/3.10.10';
+
+// pyscript directory, default:AppHome,[AppHome]/pyscript.
+pyrunner.config['module_search_paths'][0] = './pyscript';
+pyrunner.config['module_search_paths'].push('./mypython');
+~~~
+
+**config items：**
+
+- python_version: default 3.10.10 don't change
+- python_home: python home directory，default: [AppHome]/python/win32/x64/3.10.10, win32/x64 from platform and arch.
+- program_name: default windows:python, linux/macos:python3
+- base_prefix: python home directory
+- base_exec_prefix: python home directory
+- base_executable: python executable path，default windows:python.exe, linux/macos:bin/python
+- prefix: venv directory, if don't use venv set python home directory.
+- exec_prefix: venv directory, if don't use venv set python home directory.
+- executable: venv executable path, if don't use venv set python home executable path.
+- pythonpath_env: venv module directory
+- module_search_paths: is array.default:AppHome,[AppHome]/pyscript.
+- encoding: default utf-8
+
+
+
+#### init()
+
+initialization node-pyrunner
+
+~~~javascript
+pyrunner.init();
+~~~
+
+
+
+#### release()
+
+release node-pyrunner
+
+~~~JavaScript
+pyrunner.release();
+~~~
+
+
+
+#### runScriptSync()
+
+sync run python script, and return undefined.
+
+~~~JavaScript
+pyrunner.runScriptSync(`print('main runSync pyscript.')`);
+~~~
+
+
+
+#### runScript()
+
+async run python script, and return undefined. param0 is pyscript, param1 is callback on finish, param2 is callback on error.
+
+~~~JavaScript
+pyrunner.runScript(`print('main run pyscript.')`, (data) => {
+    console.log('async run pyscript finish.');
+})
+~~~
+
+
+
+#### loadModule()
+
+Get python module object，have callSync / call methods.
+
+~~~JavaScript
+const pyrunner = require('node-pyrunner');
+
+// get python module object
+let appModule = pyrunner.loadModule('app');
+
+// sync call python function
+let value = appModule.callSync('hello', ['node-pyrunner']);
+
+// async call python function
+appModule.call('show', [1, 2],
+  (data) => {
+    console.log(data);
+  },
+  (err) => {
+    console.log(err);
+  }
+);
+~~~
+
+
+
+## Python nodepyrunner module
+
+Node-PyRunner creates a pyrunner module embedded in python for interacting with JavaScript in python scripts, has runScript/callJs methods. You need import pyrunner in python script.Note you cannot used runScript or callJs methods when sync executions.
+
+
+
+#### runScript()
+
+async run JavaScript, return true or false.
+
+~~~python
+import nodepyrunner
+nodepyrunner.runScript(f"console.log('Python callBacksuper');")
+~~~
+
+
+
+#### callJs()
+
+async call JavaScript function, return true or false. target is function name, args is js function params, callback is call js after callback python function.
+
+~~~python
+import nodepyrunner
+nodepyrunner.callJs(target='sayHi', args=['aa', 1], callback=['moduleName', 'call_back'])
+~~~
+
+
+
+## Python threading module
+
+Node-PyRunner is using libuv run async task. and you can create child threads in Python too, python childthreads interact with NodeJS at any time. 
+
+**app.py**
+
+~~~python
+import sys
+import time
+import nodepyrunner
+import threading
+
+def callBack(data):
+    print('callback python.')
+
+def th_func(name, delay):
+    nodepyrunner.runScript(f"console.log('subthread run js:{name}');")
+    state = nodepyrunner.callJs(target='sayHello', args=[1, delay], callback=[__name__, 'callBack']) # return 0:error, 1:succeed
+    for i in range(5):
+        time.sleep(delay)
+        print(f'{name}-{i}-{time.ctime(time.time())}')
+
+def th_create(name, num):
+    for i in range(num):
+        t = threading.Thread(target=th_func, args=(f"{name}-thread-{i}", i))
+        t.start()
+        # t.join()
+    print('create thread finish.')
+~~~
+
+**index.js**
+
+~~~javascript
+const pyrunner = require('node-pyrunner');
+pyrunner.config['python_home'] = `./python/win32/x64/3.10.10`;
+pyrunner.config['module_search_paths'].push('./pyscript');
+pyrunner.init();
+
+// Python call Js func
+sayHello = function (num1, num2) {
+  let total = num1 + num2;
+  console.log('Main SayHello total:' + total);
+  return ++total;
+}
+
+let appModule = pyrunner.loadModule('app');
+// sync
+appModule.callSync('th_create', ['hi', 3]);
+// async
+appModule.call('th_create', ['hi', 100]);
+~~~
+
+
+
+## Python multiprocessing module
+
+Node-PyRunner is embed Cpython  to NodeJS with C++ Addon, so linux and macos can't use the multiprocessing module, In Windows, set_executable python path before creating multiprocessing tasks.
+
+**app.py**
+
+~~~python
+import sys
+import nodepyrunner
+
+# Linux/macos multiprocessing error
+if sys.platform == 'win32':
+    from multiprocessing import Process
+    from multiprocessing import Queue
+    from multiprocessing import set_executable
+    set_executable('./python/win32/x64/3.10.10/python.exe')
+
+def pro_create(name, num):
+    pub_queue = Queue()
+    import sub
+    for i in range(num):
+        p = Process(target=sub.pro_func, args=(pub_queue, f'{name}-{i}',))
+        p.start()
+        p.join()
+    # print(pub_queue.get())
+    print('create child process finish.')
+~~~
+
+**sub.py**
+
+~~~python
+# subprocess run function
+# subprocess cannot use nodepyrunner module
+def pro_func(q, name):
+    q.put(['hello', name])
+    print(q.get())
+~~~
+
+**index.js**
+
+~~~javascript
+const pyrunner = require('node-pyrunner');
+pyrunner.config['python_home'] = `./python/win32/x64/3.10.10`;
+pyrunner.config['module_search_paths'].push('./pyscript');
+pyrunner.init();
+
+let appModule = pyrunner.loadModule('app');
+// sync
+appModule.callSync('pro_create', ['subprocess', 3]);
+// async
+appModule.call('pro_create', ['subprocess', 3]);
+~~~
+
+
+
+## DOM
+
+Electron integrates nodejs environment, so node-pyrunner can be used in the electron, and nodejs shares window object with the electron so node-pyrunner can change DOM by run JavaScript.
+
+
+
+## node-pyrunner-quick-start
+
+Quickly create a node-pyrunner application based on electron-quick-start
+
+https://github.com/supercoderlee/node-pyrunner-quick-start
+
+
+
+## Example
+
+index.js
+
+~~~JavaScript
+const pyrunner = require('node-pyrunner')
+// set node-pyrunner config
+// python_home default: [AppHome]/python/win32/x64/3.10.10
+// win32/x64 auto platform and arch
+pyrunner.config['python_home'] = './python/win32/x64/3.10.10';
+pyrunner.config['module_search_paths'][0] = './pyscript'; //default: [AppHome]/pyscript
+pyrunner.config['module_search_paths'].push('./myscript');
+pyrunner.init();
+
+// run python script
+pyrunner.runScriptSync("print('main runSync pyscript')");
+pyrunner.runScript("print('main run pyscript')");
+
+// call python function
+let appModule = pyrunner.loadModule('apptest');
+
+// sync
+appModule.callSync('hello', ['pyrunner']);
+
+// async
+appModule.call('callJsFunc', [1, 2],
+  (data) => {
+    console.log(data);
+  },
+  (err) => {
+    console.log(err);
+  }
+);
+
+// python call js func
+// It must be inside global object
+sayHello = function (num1, num2) {
+    let total = num1 + num2;
+    return ++total;
+}
+~~~
+
+app.py
+
+~~~python
+import pyrunner
+
+def hello(str):
+    print(f'hello:{str}')
+
+def callBack(data):
+    pyrunner.runScript("console.log('Python callBack data:" + str(data) + "');")
+    return 1
+
+def callJsFunc(num1, num2):
+    state = pyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # return 0 is error, 1 is ok.
+~~~
+

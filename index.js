@@ -1,6 +1,5 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
-const pycore = require('pycore')
 const path = require('path')
 
 function createWindow () {
@@ -47,51 +46,47 @@ app.on('window-all-closed', function () {
 
 
 
-// PyCore初始化
-// 根据本机器的python3.10安装路径来配置环境
-pycore.init({
-    "python_version":"3.10",
-    "python_home":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6",
-    "program_name":"python",
-    "base_prefix":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6",
-    "base_exec_prefix":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6",
-    "base_executable":"C:/Users/Admin/.pyenv/pyenv-win/versions/3.10.6/python.exe",
-    "prefix":"pyscript/venv",
-    "exec_prefix":"pyscript/venv",
-    "executable":"pyscript/venv/Scripts/python.exe",
-    "pythonpath_env":"pyscript/venv/Lib/site-packages",
-    "module_search_paths":["./", "pyscript"],
-    "encoding":"utf-8"
-});
 
-// Python调用的JS函数
-// 必须是name = function(){}或者name = () => {}方式定义函数，否则无法在Python调用
+/////////////////////////////////////////////////////////
+// node-pyrunner
+/////////////////////////////////////////////////////////
+
+const pyrunner = require('node-pyrunner')
+
+/* init node-pyrunner */
+pyrunner.config['python_home'] = `./python/win32/x64/3.10.10`;
+pyrunner.config['module_search_paths'].push('./pyscript');
+pyrunner.init();
+
+/* js func for python call */
+// create func in global object.
+// funcname = function(){} or funcname = () => {}
 sayHello = function (num1, num2) {
-    let total = num1 + num2;
-    console.log('Main SayHello total:' + total);
-    return ++total;
+  let total = num1 + num2;
+  console.log('Main SayHello total:' + total);
+  return ++total;
 }
 
-// pycore版本号
-console.log(pycore.version());
+/* run python script */
+pyrunner.runScriptSync("print('main runSync pyscript')");
+pyrunner.runScript("print('main run pyscript')");
 
-// 执行Python语句
-pycore.runScriptSync("print('main run pyscript')");
-pycore.runScript("print('main run pyscript')");
+let appModule = pyrunner.loadModule('app');
 
-// 创建Python模块对象
-const pyApp = pycore.import('app');
+// sync call python funtion
+let total = appModule.callSync('sum', [1, 2]);
+console.log(`sync total:${total}`);
 
-// 同步调用Python函数
-let res = pyApp.callSync('sum', [1, 9]);
-console.log(res);
+// async call python funtion
+appModule.call('sum', [2, 3], (data)=>{
+  console.log(`async total:${data}`);
+}, (error)=>{
+  console.log(error);
+});
 
-// 异步调用Python函数
-pyApp.call('callJS', [2, 6],
-    function (data) {
-        console.log(data);
-    },
-    function (error) {
-        console.log(error);
-    }
-);
+// python call js function
+appModule.call('call_js', [5, 6], (data)=>{
+  console.log(`callJS result:${data}`);
+}, (error)=>{
+  console.log(error);
+});

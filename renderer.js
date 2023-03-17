@@ -5,22 +5,24 @@
 // selectively enable features needed in the rendering
 // process.
 
-// pycore版本
-console.log(pyCoreAPI.version());
+// get node-pyrunner version.
+console.log(NodePyRunner.version());
 
-// 执行Python语句
-pyCoreAPI.runScriptSync("print('renderer run pyscript')");
-pyCoreAPI.runScript("print('renderer run pyscript')");
+// sync run python script.
+NodePyRunner.runScriptSync("print('renderer run pyscript')");
 
-// 创建Python模块对象
-const pyApp = pyCoreAPI.import('app');
+// async run python script.
+NodePyRunner.runScript("print('renderer run pyscript')");
 
-// 同步调用Python函数
+// create python module object.
+const pyApp = NodePyRunner.loadModule('app');
+
+// sync call python function
 let res = pyApp.callSync('sum', [1, 9]);
 console.log(res);
 
-// 异步调用Python函数
-pyApp.call('callJS', [2, 6],
+// async call python function
+pyApp.call('call_js', [2, 6],
     function (data) {
         console.log(data);
     },
@@ -28,3 +30,6 @@ pyApp.call('callJS', [2, 6],
         console.log(error);
     }
 );
+
+// async call python function
+pyApp.call('change_dom', []);

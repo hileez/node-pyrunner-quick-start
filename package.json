@@ -1,5 +1,5 @@
 {
-  "name": "pycore-quick-start",
+  "name": "node-pyrunner-quick-start",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "index.js",
@@ -7,19 +7,16 @@
     "start": "electron ."
   },
   "keywords": [
-    "PyCore",
+    "Node-PyRunner",
     "Electron",
     "quick",
     "start",
     "tutorial",
     "demo"
   ],
-  "author": "ZhenLi",
+  "author": "Zhen",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^20.1.2"
-  },
-  "dependencies": {
-    "pycore": "^1.0.9"
+    "electron": "^23.1.4"
   }
 }
