@@ -78,7 +78,7 @@ pyrunner.init();
 
 #### release()
 
-用于释放node-pyrunner解释器
+用于释放node-pyrunner解释器。实际上随着nodejs进程的结束，嵌入的cpython也随之被释放，node-pyrunner需要释放的是TSFN线程安全函数，它会阻塞nodejs结束进程。
 
 ~~~JavaScript
 pyrunner.release();
@@ -278,6 +278,22 @@ appModule.call('pro_create', ['subprocess', 3]);
 ## DOM操作
 
 Electron集成了nodejs环境，因此可以在electron中使用node-pyrunner，并且nodejs与electron共享window对象所以node-pyrunner可以通过执行JavaScript来操作DOM元素。
+
+
+
+## 动态链接库
+
+**windows**
+
+需要`python3.dll`和`python310.dll`，程序搜索动态库的目录有：程序当前目录、path环境变量的路径目录，system32目录，windows目录。建议是将python3.dll/python310.dll文件拷贝到nodejs项目目录，electron应用是拷贝到可执行文件目录。【不建议使用conda创建的python3.10解释器的DLL动态库，在测试用发现不能用】
+
+**linux**
+
+需要`libpython3.10.so.1.0`动态库，建议使用pyenv版本管理工具安装python3.10，在~/.pyenv/versions可得到完整的python解释器，对应版本的解释器lib目录中就有libpython3.10.so.1.0动态库。建议将该动态库拷贝到项目目录中与应用集成发布。
+
+**macos**
+
+需要`libpython3.10.dylib`动态库，python官方提供了macos的安装程序，安装后在/Library/Frameworks/Python.framework/Versions/3.10/lib可以找到动态库。也可以参照linux操作系统的方法使用pyenv安装获得完整解释器和动态库。
 
 
 

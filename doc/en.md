@@ -277,6 +277,22 @@ Electron integrates nodejs environment, so node-pyrunner can be used in the elec
 
 
 
+## Dynamic link library
+
+**windows**
+
+'python3.dll' and 'python310.dll' are required from python3.10 home directory. Nodejs app please copy to project directory,electron app copy to executable directory.
+
+**linux**
+
+'libpython3.10.so.1.0' are required, you can use pyenv install python3.10. 'libpython3.10.so.1.0' in `~/.pyenv/versions/3.10.x/lib`. Nodejs app please copy to project directory,electron app copy to executable directory.
+
+**macos** 
+
+'libpython3.10.dylib' are required, Install python3.10, 'libpython3.10.dylib' in `/Library/Frameworks/Python.framework/Versions/3.10/lib`. You can use pyenv install python3.10 too. Nodejs app please copy to project directory,electron app copy to executable directory.
+
+
+
 ## node-pyrunner-quick-start
 
 Quickly create a node-pyrunner application based on electron-quick-start
