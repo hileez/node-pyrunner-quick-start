@@ -12,7 +12,7 @@ electron集成了nodejs运行时，您可以在electron中使用node-pyrunner执
 
 Node-PyRunner目前支持主流的操作系统和芯片架构
 
-- windows:i32/x64
+- windows:ia32/x64
 - linux:x64/arm64
 - macos:x64
 

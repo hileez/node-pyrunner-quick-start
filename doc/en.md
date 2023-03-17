@@ -4,7 +4,7 @@ The node-pyrunner module is used for nodejs to interact with python. Using node-
 
 Using node-pyrunner can extend the functionality of nodejs with python. Node-PyRunner execute tasks on async thread very easy, because  node-pyrunner is using libuv. You can also create child threads in Python and interact with NodeJS at any time. Tasks can be handled by Python multi-process, but only available in Windows.
 
-Electron integrates with the nodejs runtime, You can use Node-pyrunner in Electron to perform tasks and make it Python's web GUI, python executed javascript  to chenge DOM.
+Electron integrates with the nodejs runtime, You can use Node-pyrunner in Electron to perform tasks and make it Python's web GUI, python executed javascript  to change DOM.
 
 Node-PyRunner is embed Cpython  to NodeJS with C++ Addon, not a web server or child process. So the performance is best.
 
@@ -12,7 +12,7 @@ Node-PyRunner is embed Cpython  to NodeJS with C++ Addon, not a web server or ch
 
 ## Cross-platform
 
-- windows:i32/x64
+- windows:ia32/x64
 - linux:x64/arm64
 - macos:x64
 
@@ -58,9 +58,9 @@ pyrunner.config['module_search_paths'].push('./mypython');
 - base_exec_prefix: python home directory
 - base_executable: python executable path，default windows:python.exe, linux/macos:bin/python
 - prefix: venv directory, if don't use venv set python home directory.
-- exec_prefix: venv directory, if don't use venv set python home directory.
-- executable: venv executable path, if don't use venv set python home executable path.
-- pythonpath_env: venv module directory
+- exec_prefix: virtualenv directory, if don't use virtualenv set python_home directory.
+- executable: virtualenv executable path, if don't use virtualenv set python_home executable path.
+- pythonpath_env: virtualenv module directory
 - module_search_paths: is array.default:AppHome,[AppHome]/pyscript.
 - encoding: default utf-8
 
@@ -110,7 +110,7 @@ pyrunner.runScript(`print('main run pyscript.')`, (data) => {
 
 #### loadModule()
 
-Get python module object，have callSync / call methods.
+Get python module object，has callSync / call methods.
 
 ~~~JavaScript
 const pyrunner = require('node-pyrunner');
@@ -153,7 +153,7 @@ nodepyrunner.runScript(f"console.log('Python callBacksuper');")
 
 #### callJs()
 
-async call JavaScript function, return true or false. target is function name, args is js function params, callback is call js after callback python function.
+async call JavaScript function, return true or false. target is function name, args is js function params, callback is callback python function after call js.
 
 ~~~python
 import nodepyrunner
@@ -164,7 +164,7 @@ nodepyrunner.callJs(target='sayHi', args=['aa', 1], callback=['moduleName', 'cal
 
 ## Python threading module
 
-Node-PyRunner is using libuv run async task. and you can create child threads in Python too, python childthreads interact with NodeJS at any time. 
+Node-PyRunner uses libuv to run async tasks. and you can create child threads in Python too, python childthreads can interact with NodeJS at any time. 
 
 **app.py**
 
@@ -273,7 +273,7 @@ appModule.call('pro_create', ['subprocess', 3]);
 
 ## DOM
 
-Electron integrates nodejs environment, so node-pyrunner can be used in the electron, and nodejs shares window object with the electron so node-pyrunner can change DOM by run JavaScript.
+Electron integrates nodejs environment, so node-pyrunner can be used in the electron, and nodejs shares window object with the electron, node-pyrunner can change DOM by run JavaScript.
 
 
 
