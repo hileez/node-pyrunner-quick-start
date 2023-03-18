@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
 const pyrunner = require('node-pyrunner')
 
 /* init node-pyrunner */
-pyrunner.config['python_home'] = `./python/win32/x64/3.10.10`;
+// pyrunner.config['python_home'] = `./python/win32/x64/3.10.10`;
 pyrunner.config['module_search_paths'].push('./pyscript');
 pyrunner.init();
 

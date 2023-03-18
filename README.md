@@ -11,8 +11,12 @@ A basic Electron application needs just these files:
 - `index.html` - A web page to render. This is the app's **renderer process**.
 - `preload.js` - A content script that runs before the renderer process loads.
 - `renderer.js` - A content script to render. 
+- `python3.dll` - A Dynamic link library to node-pyrunner. 
+- `python310.dll` - A Dynamic link library to node-pyrunner. 
+- `pyscript` - Python script directory. 
+- `python` - Python home directory. 
 
-You can learn more about each of these components in depth within the [Tutorial](https://electronjs.org/docs/latest/tutorial/tutorial-prerequisites).
+You can learn more about each of these components in depth within the [Tutorial](https://electronjs.org/docs/latest/tutorial/tutorial-prerequisites). Read the usage [DOC]([supercoderlee/node-pyrunner (github.com)](https://github.com/supercoderlee/node-pyrunner)) for node-pyrunner.
 
 ## To Use
 

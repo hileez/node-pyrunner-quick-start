@@ -18,7 +18,7 @@ Node-PyRunner目前支持主流的操作系统和芯片架构
 
 
 
-## 安装&引用
+## install & require | 安装和引用
 
 ~~~bash
 # 命令安装包
@@ -32,9 +32,9 @@ const pyrunner = require('node-pyrunner');
 
 
 
-## Node-PyRunner对象
+## Node-PyRunner object | 对象
 
-#### config
+#### config | 配置
 
 这是node-pyrunner初始化JSON配置信息，用于配置python安装目录、脚本目录、模块搜索目录等路径，config根据操作系统和芯片结构预设了配置信息，比如默认python安装在当前项目的python目录，脚本文件放置在pyscript目录，如果修改默认的路径配置，其中config['python_home']是必要的的配置项目，用于node-pyrunner使用python的标准模块。
 
@@ -66,7 +66,7 @@ pyrunner.config['module_search_paths'].push('./mypython');
 
 
 
-#### init()
+#### init() | 初始化
 
 用于初始化node-pyrunner解释器
 
@@ -76,7 +76,7 @@ pyrunner.init();
 
 
 
-#### release()
+#### release() | 释放
 
 用于释放node-pyrunner解释器。实际上随着nodejs进程的结束，嵌入的cpython也随之被释放，node-pyrunner需要释放的是TSFN线程安全函数，它会阻塞nodejs结束进程。
 
@@ -86,7 +86,7 @@ pyrunner.release();
 
 
 
-#### runScriptSync()
+#### runScriptSync() | 同步执行PY脚本
 
 同步执行python语句，把要执行的python语句作为字符串参数传递，返回空值。
 
@@ -96,7 +96,7 @@ pyrunner.runScriptSync(`print('main runSync pyscript.')`);
 
 
 
-#### runScript()
+#### runScript() | 异步执行PY脚本
 
 异步执行python语句，把要执行的python语句作为字符串参数传递，返回空值。如果需要在执行完成后进行某些操作，则需要把回调函数作为传递第2个参数传递。
 
@@ -108,7 +108,7 @@ pyrunner.runScript(`print('main run pyscript.')`, (data) => {
 
 
 
-#### loadModule()
+#### loadModule() | 加载PY模块
 
 加载python模块对象，使用模块对象的**callSync / call**调用模块中的方法。
 
@@ -134,13 +134,13 @@ appModule.call('show', [1, 2],
 
 
 
-## Python nodepyrunner交互模块
+## Python nodepyrunner module | 交互模块
 
-Node-PyRunner为解释器创建了内置的pyrunner模块，用于在python脚本中与JavaScript交互，有runScript/callJs两个方法，需要在脚本中import pyrunner导入使用。要注意的是JavaScript同步执行python脚本时不能使用pyrunner模块，这个与JavaScript的单线程执行机制有关。
+Node-PyRunner为解释器创建了内置的nodepyrunner模块，用于在python脚本中与JavaScript交互，有runScript/callJs两个方法，需要在脚本中import nodepyrunner导入使用。要注意的是JavaScript同步执行python脚本时不能使用nodepyrunner模块，这个与JavaScript的单线程执行机制有关。
 
 
 
-#### runScript()
+#### runScript() | 异步执行JS脚本
 
 把要执行的JS脚本作为字符串传递，成功返回true，失败返回false。
 
@@ -151,7 +151,7 @@ nodepyrunner.runScript(f"console.log('Python callBacksuper');")
 
 
 
-#### callJs()
+#### callJs() | 异步调用JS函数
 
 用于在python中异步调用js函数，传递target目标函数名，args传递参数值，callback为回调函数，当callback缺省时为不需要回调。调用成功返回true，失败返回false。
 
@@ -162,14 +162,13 @@ nodepyrunner.callJs(target='sayHi', args=['aa', 1], callback=['moduleName', 'cal
 
 
 
-## Python threading多线程模块
+## Python threading module | 多线程模块
 
 Node-PyRunner的异步任务是用的libuv线程池，但是python脚本中也可以自行创建线程执行任务。异步调用python或者在python子线程中执行任务，因为不阻塞JavaScript主线程，所以您可以随意使用nodepyrunner模块与JavaScript交互。
 
 **app.py**
 
 ~~~python
-import sys
 import time
 import nodepyrunner
 import threading
@@ -218,7 +217,7 @@ appModule.call('th_create', ['hi', 100]);
 
 
 
-## Python multiprocessing 多进程模块
+## Python multiprocessing module | 多进程模块
 
 Node-PyRunner是将cpython解释器嵌入到nodejs的c++addon模块中，所以对multiprocessing模块有一定影响，在windows操作系统需要在创建多进程任务前set_executable配置标准解释的路径，而linux和macos则不能使用multiprocessing模块。
 
@@ -305,7 +304,7 @@ https://github.com/supercoderlee/node-pyrunner-quick-start
 
 
 
-## 案例
+## Example | 案例
 
 **index.js**
 

@@ -8,6 +8,7 @@
   },
   "keywords": [
     "Node-PyRunner",
+    "PyRunner",
     "Electron",
     "quick",
     "start",
@@ -18,5 +19,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^23.1.4"
+  },
+  "dependencies": {
+    "node-pyrunner": "^1.0.2"
   }
 }

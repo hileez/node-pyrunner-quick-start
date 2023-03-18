@@ -136,7 +136,7 @@ appModule.call('show', [1, 2],
 
 ## Python nodepyrunner module
 
-Node-PyRunner creates a pyrunner module embedded in python for interacting with JavaScript in python scripts, has runScript/callJs methods. You need import pyrunner in python script.Note you cannot used runScript or callJs methods when sync executions.
+Node-PyRunner creates a nodepyrunner module embedded in python for interacting with JavaScript in python scripts, has runScript/callJs methods. You need import nodepyrunner in python script.Note you cannot used runScript or callJs methods when sync executions.
 
 
 
@@ -169,7 +169,6 @@ Node-PyRunner uses libuv to run async tasks. and you can create child threads in
 **app.py**
 
 ~~~python
-import sys
 import time
 import nodepyrunner
 import threading
