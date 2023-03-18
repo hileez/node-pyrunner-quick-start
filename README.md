@@ -16,7 +16,7 @@ A basic Electron application needs just these files:
 - `pyscript` - Python script directory. 
 - `python` - Python home directory. 
 
-You can learn more about each of these components in depth within the [Tutorial](https://electronjs.org/docs/latest/tutorial/tutorial-prerequisites). Read the usage [DOC](https://github.com/supercoderlee/node-pyrunner)) for node-pyrunner.
+You can learn more about each of these components in depth within the [Tutorial](https://electronjs.org/docs/latest/tutorial/tutorial-prerequisites). Read the usage [DOC](https://github.com/supercoderlee/node-pyrunner) for node-pyrunner.
 
 ## To Use
 
