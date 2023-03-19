@@ -18,7 +18,7 @@ Node-PyRunner is embed Cpython  to NodeJS with C++ Addon, not a web server or ch
 
 
 
-## install & require
+## Install & Require
 
 ~~~bash
 # install

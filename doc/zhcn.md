@@ -18,7 +18,7 @@ Node-PyRunner目前支持主流的操作系统和芯片架构
 
 
 
-## install & require | 安装和引用
+## Install & Require | 安装和引用
 
 ~~~bash
 # 命令安装包
