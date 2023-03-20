@@ -354,10 +354,10 @@ def hello(str):
     print(f'hello:{str}')
 
 def callBack(data):
-    pyrunner.runScript("console.log('Python callBack data:" + str(data) + "');")
+    nodepyrunner.runScript("console.log('Python callBack data:" + str(data) + "');")
     return 1 # 回调的Py函数返回值在JS中为空的JS函数，即此返回值将不会有任何操作
 
 def callJsFunc(num1, num2):
-    state = pyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # 返回0失败，1成功
+    state = nodepyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # 返回0失败，1成功
 ~~~
 

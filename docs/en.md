@@ -351,10 +351,10 @@ def hello(str):
     print(f'hello:{str}')
 
 def callBack(data):
-    pyrunner.runScript("console.log('Python callBack data:" + str(data) + "');")
+    nodepyrunner.runScript("console.log('Python callBack data:" + str(data) + "');")
     return 1
 
 def callJsFunc(num1, num2):
-    state = pyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # return 0 is error, 1 is ok.
+    state = nodepyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # return 0 is error, 1 is ok.
 ~~~
 
