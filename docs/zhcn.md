@@ -348,7 +348,7 @@ sayHello = function (num1, num2) {
 **app.py**
 
 ~~~python
-import pyrunner
+import nodepyrunner
 
 def hello(str):
     print(f'hello:{str}')
