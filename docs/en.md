@@ -91,6 +91,14 @@ pyrunner.release();
 sync run python script, and return undefined.
 
 ~~~JavaScript
+pyrunner.runScriptSync(pyScript: string);
+~~~
+
+- pyScript: python script.
+- return undefined.
+
+~~~JavaScript
+// example
 pyrunner.runScriptSync(`print('main runSync pyscript.')`);
 ~~~
 
@@ -101,6 +109,16 @@ pyrunner.runScriptSync(`print('main runSync pyscript.')`);
 async run python script, and return undefined. param0 is pyscript, param1 is callback on finish, param2 is callback on error.
 
 ~~~JavaScript
+pyrunner.runScript(pyScript: string, callbackOnOk: object, callbackOnError: object);
+~~~
+
+- pyScript: python script
+- callbackOnOk: callback function on ok.
+- callbackOnError: callback function on error.
+- return undefined.
+
+~~~JavaScript
+// example
 pyrunner.runScript(`print('main run pyscript.')`, (data) => {
     console.log('async run pyscript finish.');
 })
@@ -110,16 +128,39 @@ pyrunner.runScript(`print('main run pyscript.')`, (data) => {
 
 #### loadModule()
 
-Get python module object，has callSync / call methods.
+Get python module object，has **callSync() / call()** methods.
 
 ~~~JavaScript
+let appModule = pyrunner.loadModule(moduleName: string);
+~~~
+
+- moduleName: python module name.
+- appModule: return module object.
+
+**callSync() / call()**
+
+~~~JavaScript
+// sync call loadModule() object function
+let result = appModule.callSync(functionName: string, args: Array<number | string>);
+
+// async call loadModule() object function, return undefined.
+appModule.call(functionName: string, args: args: Array<number | string>, callbackOnOk: object, callbackOnError: object);
+~~~
+
+- functionName: call python function
+- args[]: call python param array
+- callbackOnOk: callback function on ok.
+- callbackOnError: callback function on error.
+
+~~~JavaScript
+// example
 const pyrunner = require('node-pyrunner');
 
 // get python module object
 let appModule = pyrunner.loadModule('app');
 
 // sync call python function
-let value = appModule.callSync('hello', ['node-pyrunner']);
+let result = appModule.callSync('hello', ['node-pyrunner']);
 
 // async call python function
 appModule.call('show', [1, 2],
@@ -145,6 +186,14 @@ Node-PyRunner creates a nodepyrunner module embedded in python for interacting w
 async run JavaScript, return true or false.
 
 ~~~python
+nodepyrunner.runScript(JsScript);
+~~~
+
+- JsScript: javascript script string.
+- return true/false.
+
+~~~python
+# example
 import nodepyrunner
 nodepyrunner.runScript(f"console.log('Python callBacksuper');")
 ~~~
@@ -156,6 +205,16 @@ nodepyrunner.runScript(f"console.log('Python callBacksuper');")
 async call JavaScript function, return true or false. target is function name, args is js function params, callback is callback python function after call js.
 
 ~~~python
+nodepyrunner.callJs(target, args[], callback=[module, py_func_name])
+~~~
+
+- target: call javascript function name.
+- args[]: call javascript function param array.
+- callback=[module, py_func_name]: callback python，module: python module name，py_func_name: python function name.
+- return true/false.
+
+~~~python
+# example
 import nodepyrunner
 nodepyrunner.callJs(target='sayHi', args=['aa', 1], callback=['moduleName', 'call_back'])
 ~~~
@@ -178,7 +237,7 @@ def callBack(data):
 
 def th_func(name, delay):
     nodepyrunner.runScript(f"console.log('subthread run js:{name}');")
-    state = nodepyrunner.callJs(target='sayHello', args=[1, delay], callback=[__name__, 'callBack']) # return 0:error, 1:succeed
+    state = nodepyrunner.callJs(target='sayHello', args=[1, delay], callback=[__name__, 'callBack']) # return False:error, True:succeed
     for i in range(5):
         time.sleep(delay)
         print(f'{name}-{i}-{time.ctime(time.time())}')
@@ -302,7 +361,7 @@ https://github.com/supercoderlee/node-pyrunner-quick-start
 
 ## Example
 
-index.js
+**index.js**
 
 ~~~JavaScript
 const pyrunner = require('node-pyrunner')
@@ -322,7 +381,7 @@ pyrunner.runScript("print('main run pyscript')");
 let appModule = pyrunner.loadModule('apptest');
 
 // sync
-appModule.callSync('hello', ['pyrunner']);
+let result = appModule.callSync('hello', ['pyrunner']);
 
 // async
 appModule.call('callJsFunc', [1, 2],
@@ -342,7 +401,7 @@ sayHello = function (num1, num2) {
 }
 ~~~
 
-app.py
+**app.py**
 
 ~~~python
 import nodepyrunner
@@ -355,6 +414,6 @@ def callBack(data):
     return 1
 
 def callJsFunc(num1, num2):
-    state = nodepyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # return 0 is error, 1 is ok.
+    state = nodepyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # return False:error, True:succeed
 ~~~
 

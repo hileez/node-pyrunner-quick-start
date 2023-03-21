@@ -36,7 +36,7 @@ const pyrunner = require('node-pyrunner');
 
 #### config | 配置
 
-这是node-pyrunner初始化JSON配置信息，用于配置python安装目录、脚本目录、模块搜索目录等路径，config根据操作系统和芯片结构预设了配置信息，比如默认python安装在当前项目的python目录，脚本文件放置在pyscript目录，如果修改默认的路径配置，其中config['python_home']是必要的的配置项目，用于node-pyrunner使用python的标准模块。
+这是node-pyrunner初始化JSON配置信息，用于配置python安装目录、脚本目录、模块搜索目录等路径，config根据操作系统和芯片架构预设了配置信息，比如默认python安装在当前项目的python目录，脚本文件放置在pyscript目录，如果修改默认的路径配置，其中config['python_home']是必要的的配置项目，用于node-pyrunner使用python的标准模块。
 
 ~~~javascript
 const pyrunner = require('node-pyrunner');
@@ -68,7 +68,7 @@ pyrunner.config['module_search_paths'].push('./mypython');
 
 #### init() | 初始化
 
-用于初始化node-pyrunner解释器
+初始化node-pyrunner解释器
 
 ~~~javascript
 pyrunner.init();
@@ -78,7 +78,7 @@ pyrunner.init();
 
 #### release() | 释放
 
-用于释放node-pyrunner解释器。实际上随着nodejs进程的结束，嵌入的cpython也随之被释放，node-pyrunner需要释放的是TSFN线程安全函数，它会阻塞nodejs结束进程。
+释放node-pyrunner解释器。实际上随着nodejs进程的结束，嵌入的cpython也随之被释放，node-pyrunner需要释放的是TSFN线程安全函数，它会阻塞nodejs结束进程。
 
 ~~~JavaScript
 pyrunner.release();
@@ -91,6 +91,14 @@ pyrunner.release();
 同步执行python语句，把要执行的python语句作为字符串参数传递，返回空值。
 
 ~~~JavaScript
+pyrunner.runScriptSync(pyScript: string);
+~~~
+
+- pyScript: Python脚本。
+- 返回undefined空值。
+
+~~~JavaScript
+// 案例
 pyrunner.runScriptSync(`print('main runSync pyscript.')`);
 ~~~
 
@@ -101,6 +109,16 @@ pyrunner.runScriptSync(`print('main runSync pyscript.')`);
 异步执行python语句，把要执行的python语句作为字符串参数传递，返回空值。如果需要在执行完成后进行某些操作，则需要把回调函数作为传递第2个参数传递。
 
 ~~~JavaScript
+pyrunner.runScript(pyScript: string, callbackOnOk: object, callbackOnError: object);
+~~~
+
+- pyScript:Python脚本
+- callbackOnOk:执行完成回调函数
+- callbackOnError:执行错误回调函数
+- 返回undefined空值
+
+~~~JavaScript
+// 案例
 pyrunner.runScript(`print('main run pyscript.')`, (data) => {
     console.log('async run pyscript finish.');
 })
@@ -110,16 +128,39 @@ pyrunner.runScript(`print('main run pyscript.')`, (data) => {
 
 #### loadModule() | 加载PY模块
 
-加载python模块对象，使用模块对象的**callSync / call**调用模块中的方法。
+加载python模块对象，使用模块对象的**callSync() / call()**调用模块中的方法。
 
 ~~~JavaScript
+let appModule = pyrunner.loadModule(moduleName: string);
+~~~
+
+- moduleName:Python模块名（脚本文件名）
+- appModule:返回模块对象
+
+**callSync() / call() | 同步调用 / 异步调用**
+
+~~~JavaScript
+// 同步调用loadModule()对象函数
+let result = appModule.callSync(functionName: string, args: Array<number | string>);
+
+// 异步调用loadModule()对象函数（返回空值）
+appModule.call(functionName: string, args: args: Array<number | string>, callbackOnOk: object, callbackOnError: object);
+~~~
+
+- functionName: 调用Python函数名
+- args: 调用Python函数参数数组
+- callbackOnOk: 执行完成回调
+- callbackOnError: 执行错误回调
+
+~~~JavaScript
+// 案例
 const pyrunner = require('node-pyrunner');
 
 // 创建模块对象
 let appModule = pyrunner.loadModule('app');
 
 // 同步调用python的hello函数
-let value = appModule.callSync('hello', ['node-pyrunner']);
+let result = appModule.callSync('hello', ['node-pyrunner']);
 
 // 异步调用python的show函数
 appModule.call('show', [1, 2],
@@ -145,6 +186,14 @@ Node-PyRunner为解释器创建了内置的nodepyrunner模块，用于在python�
 把要执行的JS脚本作为字符串传递，成功返回true，失败返回false。
 
 ~~~python
+nodepyrunner.runScript(JsScript);
+~~~
+
+- JsScript:JavaScript脚本字符串
+- 返回true/false
+
+~~~python
+# 案例
 import nodepyrunner
 nodepyrunner.runScript(f"console.log('Python callBacksuper');")
 ~~~
@@ -156,6 +205,16 @@ nodepyrunner.runScript(f"console.log('Python callBacksuper');")
 用于在python中异步调用js函数，传递target目标函数名，args传递参数值，callback为回调函数，当callback缺省时为不需要回调。调用成功返回true，失败返回false。
 
 ~~~python
+nodepyrunner.callJs(target, args[], callback=[module, py_func_name])
+~~~
+
+- target:调用JavaScript函数名
+- args[]:调用JavaScript函数参数
+- callback=[module, py_func_name]:回调python函数，module:python模块名，py_func_name:python函数名
+- 返回true/false
+
+~~~python
+# 案例
 import nodepyrunner
 nodepyrunner.callJs(target='sayHi', args=['aa', 1], callback=['moduleName', 'call_back'])
 ~~~
@@ -179,7 +238,7 @@ def callBack(data):
 
 def th_func(name, delay):
     nodepyrunner.runScript(f"console.log('subthread run js:{name}');")
-    state = nodepyrunner.callJs(target='sayHello', args=[1, delay], callback=[__name__, 'callBack']) # 返回0表示失败，1为成功
+    state = nodepyrunner.callJs(target='sayHello', args=[1, delay], callback=[__name__, 'callBack']) # 返回False表示失败，True为成功
     for i in range(5):
         time.sleep(delay)
         print(f'{name}-{i}-{time.ctime(time.time())}')
@@ -326,7 +385,7 @@ pyrunner.runScript("print('main run pyscript')");
 let appModule = pyrunner.loadModule('apptest');
 
 // 同步调用python的hello函数
-appModule.callSync('hello', ['pyrunner']);
+let result = appModule.callSync('hello', ['pyrunner']);
 
 // 异步调用python的callJsFunc函数
 appModule.call('callJsFunc', [1, 2],
@@ -358,6 +417,6 @@ def callBack(data):
     return 1 # 回调的Py函数返回值在JS中为空的JS函数，即此返回值将不会有任何操作
 
 def callJsFunc(num1, num2):
-    state = nodepyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # 返回0失败，1成功
+    state = nodepyrunner.callJs(target='sayHello', args=[num1, num2], callback=[__name__, 'callBack']) # 返回False表示失败，True为成功
 ~~~
 
