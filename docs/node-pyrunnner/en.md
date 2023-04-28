@@ -382,7 +382,7 @@ pyrunner.runScriptSync("print('main runSync pyscript')");
 pyrunner.runScript("print('main run pyscript')");
 
 // call python function
-let appModule = pyrunner.loadModule('apptest');
+let appModule = pyrunner.loadModule('app');
 
 // sync
 let result = appModule.callSync('hello', ['pyrunner']);

@@ -386,7 +386,7 @@ pyrunner.runScriptSync("print('main runSync pyscript')");
 pyrunner.runScript("print('main run pyscript')");
 
 // 调用python函数
-let appModule = pyrunner.loadModule('apptest');
+let appModule = pyrunner.loadModule('app');
 
 // 同步调用python的hello函数
 let result = appModule.callSync('hello', ['pyrunner']);
