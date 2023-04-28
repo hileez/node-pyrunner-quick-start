@@ -1,5 +1,9 @@
 # node-pyrunner-quick-start
 
+Language: 简体中文 | [English](https://github.com/supercoderlee/node-pyrunner-quick-start/blob/main/docs/readme/en.md)
+
+
+
 **克隆和快速创建运行一个Electron应用。**
 
 这是一个基于Electron创建并使用node-pyrunner使用python程序的最小应用 [Electron快速入门指南](https://electronjs.org/docs/latest/tutorial/quick-start)

@@ -1,5 +1,9 @@
 # Node-PyRunner
 
+Language: 简体中文 | [English](https://github.com/supercoderlee/node-pyrunner/blob/main/docs/en.md)
+
+
+
 Node-PyRunner模块用于nodejs与python交互，在nodejs中用node-pyrunner同步或者异步执行python脚本和调用python函数，在异步调用时允许python执行js脚本或调用js函数。
 
 使用node-pyrunner可以用简单的python语言扩展nodejs的功能，而不需要用高难度的C/C++；另外得益于libuv线程池的使用，node-pyrunner异步多线程使用起来非常容易，还可以在python中创建子线程并随时与nodejs交互；繁重的任务可以交给python多进程来处理，但目前只能在windows使用。

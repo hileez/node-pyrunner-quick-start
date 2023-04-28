@@ -1,5 +1,9 @@
 # Node-PyRunner
 
+Language: [Chiness](https://github.com/supercoderlee/node-pyrunner/blob/main/docs/zh-cn.md) | English
+
+
+
 The node-pyrunner module is used for nodejs to interact with python. Using node-pyrunner you can execute python scripts and call python functions synchronously or asynchronously in nodejs, and allows python to execute js scripts or call js functions when called asynchronously.
 
 Using node-pyrunner can extend the functionality of nodejs with python. Node-PyRunner execute tasks on async thread very easy, because  node-pyrunner is using libuv. You can also create child threads in Python and interact with NodeJS at any time. Tasks can be handled by Python multi-process, but only available in Windows.
