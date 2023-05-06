@@ -28,7 +28,7 @@ Electron应用只需要这些文件:
 
 ```bash
 # 克隆仓库
-git clone https://github.com/supercoderlee/node-pyrunner-quick-start
+git clone https://github.com/supercoderlee/node-pyrunner-quick-start.git
 # 进入目录
 cd node-pyrunner-quick-start
 # 安装依赖
