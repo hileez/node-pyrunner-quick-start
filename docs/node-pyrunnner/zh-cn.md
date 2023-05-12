@@ -130,12 +130,12 @@ pyrunner.runScript(`print('main run pyscript.')`, (data) => {
 
 
 
-#### loadModule() | 加载PY模块
+#### import() | 加载PY模块
 
 加载python模块对象，使用模块对象的**callSync() / call()**调用模块中的方法。
 
 ~~~JavaScript
-let appModule = pyrunner.loadModule(moduleName: string);
+let appModule = pyrunner.import(moduleName: string);
 ~~~
 
 - moduleName:Python模块名（脚本文件名）
@@ -144,10 +144,10 @@ let appModule = pyrunner.loadModule(moduleName: string);
 **callSync() / call() | 同步调用 / 异步调用**
 
 ~~~JavaScript
-// 同步调用loadModule()对象函数
+// 同步调用import()对象函数
 let result = appModule.callSync(functionName: string, args: Array<number | string>);
 
-// 异步调用loadModule()对象函数（返回空值）
+// 异步调用import()对象函数（返回空值）
 appModule.call(functionName: string, args: args: Array<number | string>, callbackOnOk: object, callbackOnError: object);
 ~~~
 
@@ -161,7 +161,7 @@ appModule.call(functionName: string, args: args: Array<number | string>, callbac
 const pyrunner = require('node-pyrunner');
 
 // 创建模块对象
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 
 // 同步调用python的hello函数
 let result = appModule.callSync('hello', ['node-pyrunner']);
@@ -271,7 +271,7 @@ sayHello = function (num1, num2) {
   return ++total;
 }
 
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 // 同步执行
 appModule.callSync('th_create', ['hi', 3]);
 // 或者异步执行
@@ -328,7 +328,7 @@ pyrunner.config['python_home'] = `./python/win32/x64/3.10.10`;
 pyrunner.config['module_search_paths'].push('./pyscript');
 pyrunner.init();
 
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 // 同步执行
 appModule.callSync('pro_create', ['subprocess', 3]);
 // 或者异步执行
@@ -386,7 +386,7 @@ pyrunner.runScriptSync("print('main runSync pyscript')");
 pyrunner.runScript("print('main run pyscript')");
 
 // 调用python函数
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 
 // 同步调用python的hello函数
 let result = appModule.callSync('hello', ['pyrunner']);

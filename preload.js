@@ -42,7 +42,7 @@ sayHello = function (num1, num2) {
 // exports func to renderer
 contextBridge.exposeInMainWorld('NodePyRunner', {
   loadModule(pModule){
-    return pyrunner.loadModule(pModule);
+    return pyrunner.import(pModule);
   },
   runScriptSync: (pyScript) => {
     pyrunner.runScriptSync(pyScript);

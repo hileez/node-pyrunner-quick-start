@@ -1,6 +1,6 @@
 # Node-PyRunner
 
-Language: [Chiness](https://github.com/supercoderlee/node-pyrunner/blob/main/docs/zh-cn.md) | English
+Language: [Chinese](https://github.com/supercoderlee/node-pyrunner/blob/main/docs/zh-cn.md) | English
 
 
 
@@ -130,12 +130,12 @@ pyrunner.runScript(`print('main run pyscript.')`, (data) => {
 
 
 
-#### loadModule()
+#### import()
 
 Get python module object，has **callSync() / call()** methods.
 
 ~~~JavaScript
-let appModule = pyrunner.loadModule(moduleName: string);
+let appModule = pyrunner.import(moduleName: string);
 ~~~
 
 - moduleName: python module name.
@@ -144,10 +144,10 @@ let appModule = pyrunner.loadModule(moduleName: string);
 **callSync() / call()**
 
 ~~~JavaScript
-// sync call loadModule() object function
+// sync call import() object function
 let result = appModule.callSync(functionName: string, args: Array<number | string>);
 
-// async call loadModule() object function, return undefined.
+// async call import() object function, return undefined.
 appModule.call(functionName: string, args: args: Array<number | string>, callbackOnOk: object, callbackOnError: object);
 ~~~
 
@@ -161,7 +161,7 @@ appModule.call(functionName: string, args: args: Array<number | string>, callbac
 const pyrunner = require('node-pyrunner');
 
 // get python module object
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 
 // sync call python function
 let result = appModule.callSync('hello', ['node-pyrunner']);
@@ -269,7 +269,7 @@ sayHello = function (num1, num2) {
   return ++total;
 }
 
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 // sync
 appModule.callSync('th_create', ['hi', 3]);
 // async
@@ -324,7 +324,7 @@ pyrunner.config['python_home'] = `./python/win32/x64/3.10.10`;
 pyrunner.config['module_search_paths'].push('./pyscript');
 pyrunner.init();
 
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 // sync
 appModule.callSync('pro_create', ['subprocess', 3]);
 // async
@@ -382,7 +382,7 @@ pyrunner.runScriptSync("print('main runSync pyscript')");
 pyrunner.runScript("print('main run pyscript')");
 
 // call python function
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 
 // sync
 let result = appModule.callSync('hello', ['pyrunner']);

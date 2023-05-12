@@ -1,6 +1,6 @@
 # node-pyrunner-quick-start
 
-Language: [Chiness](https://github.com/supercoderlee/node-pyrunner-quick-start/blob/main/docs/readme/zh-cn.md) | English
+Language: [Chinese](https://github.com/supercoderlee/node-pyrunner-quick-start/blob/main/docs/readme/zh-cn.md) | English
 
 
 

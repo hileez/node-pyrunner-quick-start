@@ -71,7 +71,7 @@ sayHello = function (num1, num2) {
 pyrunner.runScriptSync("print('main runSync pyscript')");
 pyrunner.runScript("print('main run pyscript')");
 
-let appModule = pyrunner.loadModule('app');
+let appModule = pyrunner.import('app');
 
 // sync call python funtion
 let total = appModule.callSync('sum', [1, 2]);
