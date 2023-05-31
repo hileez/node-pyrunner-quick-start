@@ -6,7 +6,7 @@ Language: 简体中文 | [English](https://github.com/supercoderlee/node-pyrunne
 
 **克隆和快速创建运行一个Electron应用。**
 
-这是一个基于Electron创建并使用node-pyrunner使用python程序的最小应用 [Electron快速入门指南](https://electronjs.org/docs/latest/tutorial/quick-start)
+这是一个基于Electron创建并使用node-pyrunner执行python程序的最小应用 [Electron快速入门指南](https://electronjs.org/docs/latest/tutorial/quick-start)
 
 Electron应用只需要这些文件:
 
